@@ -152,8 +152,19 @@ h1 { font-size: 1.8rem !important; }
 h2 { font-size: 1.3rem !important; }
 h3 { font-size: 1.1rem !important; }
 
-p, span, div, li {
-    font-family: 'Inter', sans-serif !important;
+p, li {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Hide Sidebar Collapse Button & Icon Overrides ── */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="collapsedControl"] {
+    display: none !important;
+}
+
+/* Ensure material icons render correctly if used elsewhere */
+.material-icons {
+    font-family: 'Material Icons' !important;
 }
 
 /* ── Hide default st.metric styling ────────────────────────────────── */
