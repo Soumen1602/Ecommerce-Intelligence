@@ -1,0 +1,1 @@
+# EcomIQ - Ecommerce Intelligence Platform

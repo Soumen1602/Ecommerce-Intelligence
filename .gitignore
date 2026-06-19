@@ -1,0 +1,42 @@
+# ──────────────────────────────────────────────
+# EcomIQ — .gitignore
+# ──────────────────────────────────────────────
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+.eggs/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# Data — raw CSVs are not tracked
+data/raw/
+
+# Trained model artifacts
+models/*.pkl
+!models/churn_model.pkl
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# OS files
+*.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Archive
+archive/
+archive.zip
