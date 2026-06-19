@@ -27,6 +27,8 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
 
 logger = logging.getLogger(__name__)
 
@@ -140,6 +142,53 @@ def train_xgboost(
         return model
     except Exception as exc:
         logger.error("Error training XGBoost: %s", exc)
+        raise
+
+def train_lightgbm(
+    X_train: Union[pd.DataFrame, np.ndarray],
+    y_train: Union[pd.Series, np.ndarray],
+) -> LGBMClassifier:
+    """Train a LightGBM classifier with class imbalance handling."""
+    try:
+        model = LGBMClassifier(
+            n_estimators=200,
+            max_depth=5,
+            learning_rate=0.1,
+            class_weight="balanced",
+            random_state=42,
+            verbose=-1,
+        )
+        model.fit(X_train, y_train)
+        logger.info("LightGBM trained successfully.")
+        return model
+    except Exception as exc:
+        logger.error("Error training LightGBM: %s", exc)
+        raise
+
+def train_catboost(
+    X_train: Union[pd.DataFrame, np.ndarray],
+    y_train: Union[pd.Series, np.ndarray],
+) -> CatBoostClassifier:
+    """Train a CatBoost classifier with automatic class-imbalance handling."""
+    try:
+        y = np.asarray(y_train)
+        n_negative = int((y == 0).sum())
+        n_positive = int((y == 1).sum())
+        scale_pos = n_negative / n_positive if n_positive > 0 else 1.0
+
+        model = CatBoostClassifier(
+            iterations=200,
+            depth=5,
+            learning_rate=0.1,
+            scale_pos_weight=scale_pos,
+            random_state=42,
+            verbose=0,
+        )
+        model.fit(X_train, y_train)
+        logger.info("CatBoost trained successfully.")
+        return model
+    except Exception as exc:
+        logger.error("Error training CatBoost: %s", exc)
         raise
 
 
@@ -327,6 +376,8 @@ def train_and_compare_all(
             "Logistic Regression": train_logistic_regression(X_train, y_train),
             "Random Forest": train_random_forest(X_train, y_train),
             "XGBoost": train_xgboost(X_train, y_train),
+            "LightGBM": train_lightgbm(X_train, y_train),
+            "CatBoost": train_catboost(X_train, y_train),
         }
 
         results_dict: dict[str, dict[str, float]] = {}

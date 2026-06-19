@@ -99,48 +99,46 @@ div[data-testid="stToolbar"] {display: none;}
 div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
 
-/* ── Sidebar ───────────────────────────────────────────────────────── */
+/* ── Sidebar: Frosted Glass ────────────────────────────────────────── */
 section[data-testid="stSidebar"] {
-    background-color: #0a0a0a !important;
-    border-right: 1px solid #222222 !important;
-    padding-top: 1rem;
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-section[data-testid="stSidebar"] .block-container {
-    padding: 1rem 1.5rem !important;
+/* ── Hide Sidebar Radio Circles ────────────────────────────────────── */
+div[role="radiogroup"] > div[role="radio"] > label > div:first-child {
+    display: none !important;
 }
 
-section[data-testid="stSidebar"] [data-testid="stMarkdown"] p,
-section[data-testid="stSidebar"] label {
-    color: #a1a1aa !important;
-    font-family: 'Inter', sans-serif !important;
-}
-
-/* ── Sidebar Radio (Navigation Pills) ──────────────────────────────── */
-section[data-testid="stSidebar"] [role="radiogroup"] {
-    gap: 4px;
-}
-
+/* Modern Pill Navigation for Sidebar */
 section[data-testid="stSidebar"] [role="radiogroup"] label {
-    background-color: #111111 !important;
-    border-radius: 8px !important;
-    padding: 10px 16px !important;
-    margin: 2px 0 !important;
-    border-left: 3px solid transparent !important;
-    transition: all 0.2s ease !important;
-    color: #a1a1aa !important;
+    padding: 12px 16px !important;
+    margin-bottom: 8px !important;
+    border-radius: 12px !important;
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    color: #94a3b8 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
 }
-
 section[data-testid="stSidebar"] [role="radiogroup"] label:hover {
-    border-left-color: #0070f3 !important;
-    background-color: #222222 !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(4px) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
 }
-
 section[data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"],
 section[data-testid="stSidebar"] [role="radiogroup"] label[aria-checked="true"] {
-    border-left-color: #0070f3 !important;
-    background-color: #002550 !important;
-    color: #ededed !important;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.15) 0%, rgba(125, 211, 252, 0.05) 100%) !important;
+    border-left: 3px solid #38bdf8 !important;
+    color: #f8fafc !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* ── Typography ────────────────────────────────────────────────────── */
@@ -163,46 +161,62 @@ p, span, div, li {
     display: none !important;
 }
 
-/* ── Custom KPI Cards ──────────────────────────────────────────────── */
+/* ── Glassmorphism KPI Cards ───────────────────────────────────────── */
 .kpi-card {
-    background: #111111;
-    border: 1px solid #222222;
-    border-left: 3px solid #0070f3;
-    border-radius: 12px;
-    padding: 20px 24px;
-    transition: all 0.2s ease;
-    animation: fadeIn 0.6s ease-out;
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-left: 3px solid #38bdf8 !important;
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s ease-out;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 .kpi-card:hover {
-    border-color: #0070f3;
-    box-shadow: 0 4px 20px rgba(0, 112, 243, 0.08);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(56, 189, 248, 0.15);
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    border-left-color: #7dd3fc !important;
 }
 
 .kpi-label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #888888;
-    margin-bottom: 6px;
+    color: #94a3b8;
+    margin-bottom: 8px;
     font-family: 'Inter', sans-serif;
 }
 
+/* Fixed Text Overflow with Clamp */
 .kpi-value {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
     font-weight: 700;
-    color: #0070f3;
-    line-height: 1.1;
+    background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
     font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .kpi-subtitle {
-    font-size: 0.75rem;
-    color: #888888;
-    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 6px;
     font-family: 'Inter', sans-serif;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Section Headers ───────────────────────────────────────────────── */
@@ -230,18 +244,21 @@ p, span, div, li {
     font-family: 'Inter', sans-serif;
 }
 
-/* ── Chart containers ──────────────────────────────────────────────── */
+/* ── Glassmorphism Chart containers ────────────────────────────────── */
 .chart-container {
-    background: #0a0a0a;
-    border: 1px solid #222222;
-    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.3) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px;
     padding: 20px;
     margin: 8px 0;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.7s ease-out;
 }
 
 .chart-container:hover {
-    border-color: #374151;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Risk Badges ───────────────────────────────────────────────────── */
@@ -553,7 +570,7 @@ def load_trained_models():
     feature_cols = [
         "frequency", "monetary",
         "avg_review_score", "avg_delivery_days", "late_delivery_rate",
-        "unique_categories", "preferred_payment",
+        "unique_categories", "review_sentiment_score", "preferred_payment",
     ]
 
     # Ensure all feature columns exist

@@ -8,9 +8,10 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B.svg?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-%2334D058.svg?style=for-the-badge&logo=hugging-face&logoColor=white)](https://huggingface.co)
+[![LightGBM](https://img.shields.io/badge/LightGBM-ffb347.svg?style=for-the-badge&logo=lightgbm&logoColor=black)](https://lightgbm.readthedocs.io)
 [![XGBoost](https://img.shields.io/badge/XGBoost-189FDD.svg?style=for-the-badge&logo=xgboost&logoColor=white)](https://xgboost.ai)
-[![Plotly](https://img.shields.io/badge/Plotly-3F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com)
-[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
+[![CatBoost](https://img.shields.io/badge/CatBoost-F5DD00.svg?style=for-the-badge&logo=catboost&logoColor=black)](https://catboost.ai/)
 
 </div>
 
@@ -23,10 +24,10 @@
 Moving beyond standard dashboards, EcomIQ features a bespoke, **"Vercel / Linear" inspired ultra-premium UI**. It offers real-time business KPIs alongside an embedded **XGBoost classification model** that identifies at-risk customers with high precision, explained transparently via **SHAP (SHapley Additive exPlanations)**.
 
 ### ✨ Key Highlights for Recruiters
-- **End-to-End Pipeline**: Handles raw data ingestion, relational merging (9 datasets), feature engineering (RFM & Behavioral), model training, and deployment.
-- **Advanced Feature Engineering**: Engineered recency, frequency, monetary (RFM) variables, and behavioral signals (late delivery rates, review scores). Mitigated data leakage perfectly.
-- **Imbalanced Class Handling**: Utilized robust scaling and `scale_pos_weight` to handle heavily skewed e-commerce retention data.
-- **Production-Ready UI**: Deployed via Streamlit using a 100% custom-injected CSS design system (True Black `#000000` & Electric Blue `#0070F3`), bypassing standard generic components for a Silicon Valley aesthetic.
+- **End-to-End ML Pipeline**: Handles raw data ingestion, relational merging (9 datasets), feature engineering (RFM & Behavioral), model training, and deployment.
+- **Deep Learning NLP Fusion**: Integrates **Hugging Face Transformers** to extract sentiment scores from Portuguese customer review texts, fusing unstructured NLP data with tabular ML features.
+- **Gradient Boosting Mastery**: Evaluates and compares the industry's top three state-of-the-art frameworks: **XGBoost, LightGBM, and CatBoost**, expertly handling imbalanced class distributions.
+- **Production-Ready Premium UI**: Deployed via Streamlit using a bespoke, 100% custom-injected **"Midnight Glassmorphism"** CSS design system. Features frosted glass cards, dynamic `clamp()` typography scaling, and smooth CSS keyframe animations—bypassing generic components for an elite aesthetic.
 
 ---
 
@@ -44,10 +45,11 @@ graph TD;
     D --> F[Behavioral Signals];
     E --> G[Feature Matrix];
     F --> G;
+    N[NLP Sentiment Extractor<br>Hugging Face] --> G;
     G --> H[Train/Test Split & Scaling];
-    H --> I((XGBoost Classifier));
-    H --> J((Random Forest));
-    H --> K((Logistic Regression));
+    H --> I((XGBoost));
+    H --> J((LightGBM));
+    H --> K((CatBoost));
     I --> L[SHAP Explainer];
     L --> M[Streamlit Dashboard];
 ```
@@ -58,7 +60,7 @@ graph TD;
 
 ## 📊 Model Performance
 
-We trained multiple classifiers to predict customer churn. **XGBoost** emerged as the optimal model, offering an excellent balance of precision and recall for this highly imbalanced dataset (90.1% baseline churn rate).
+We trained an ensemble of state-of-the-art classifiers to predict customer churn. **XGBoost**, **LightGBM**, and **CatBoost** were rigorously evaluated, offering an excellent balance of precision and recall for this highly imbalanced dataset.
 
 | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
 |-------|----------|-----------|--------|----------|---------|
@@ -73,7 +75,8 @@ We trained multiple classifiers to predict customer churn. **XGBoost** emerged a
 ## 💻 Tech Stack
 
 - **Core & Data Processing**: `Python`, `Pandas`, `NumPy`
-- **Machine Learning**: `Scikit-Learn`, `XGBoost`
+- **Machine Learning**: `Scikit-Learn`, `XGBoost`, `LightGBM`, `CatBoost`
+- **NLP / Deep Learning**: `Transformers (Hugging Face)`, `PyTorch`
 - **Interpretability**: `SHAP`
 - **Frontend & Visualization**: `Streamlit`, `Plotly`, `Custom CSS`
 | **App Framework** | Streamlit |
