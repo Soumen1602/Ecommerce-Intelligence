@@ -518,7 +518,15 @@ def render_model_comparison_table(results: dict) -> str:
 @st.cache_data(show_spinner=False)
 def load_data():
     """Load and merge all Olist datasets. Cached for performance."""
+    processed_path = PROJECT_ROOT / "data" / "processed" / "master_data.parquet"
+    if processed_path.exists():
+        return pd.read_parquet(processed_path)
+
     data_dir = PROJECT_ROOT / "data" / "raw"
+    if not data_dir.exists() or not list(data_dir.glob("*.csv")):
+        st.error("Data files not found. The app requires either `data/processed/master_data.parquet` or raw CSVs in `data/raw/`.")
+        st.stop()
+
     datasets = load_all_datasets(data_dir)
     master_df = merge_master_dataframe(datasets)
     return master_df
@@ -527,6 +535,10 @@ def load_data():
 @st.cache_data(show_spinner=False)
 def load_feature_data():
     """Build the customer-level feature matrix. Cached for performance."""
+    processed_path = PROJECT_ROOT / "data" / "processed" / "feature_matrix.parquet"
+    if processed_path.exists():
+        return pd.read_parquet(processed_path)
+
     df = load_data()
     features = build_feature_matrix(df)
     return features
@@ -622,8 +634,8 @@ with st.sidebar:
         '<div class="author-name">Soumendra Brahmapada</div>'
         '<div class="author-role">Data Analyst & ML Engineer</div>'
         '<div class="author-links">'
-        '<a href="https://github.com/soumendra-brahmapada" target="_blank">⚡ GitHub</a>'
-        '<a href="https://linkedin.com/in/soumendra-brahmapada" target="_blank">🔗 LinkedIn</a>'
+        '<a href="https://github.com/Soumen1602" target="_blank">⚡ GitHub</a>'
+        '<a href="https://www.linkedin.com/in/soumend12/" target="_blank">🔗 LinkedIn</a>'
         '</div>'
         '</div>',
         unsafe_allow_html=True,

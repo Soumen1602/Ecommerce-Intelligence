@@ -22,6 +22,7 @@ venv/
 
 # Data — raw CSVs are not tracked
 data/raw/
+!data/processed/
 
 # Trained model artifacts
 models/*.pkl

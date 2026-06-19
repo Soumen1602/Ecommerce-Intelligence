@@ -76,7 +76,8 @@ We trained multiple classifiers to predict customer churn. **XGBoost** emerged a
 - **Machine Learning**: `Scikit-Learn`, `XGBoost`
 - **Interpretability**: `SHAP`
 - **Frontend & Visualization**: `Streamlit`, `Plotly`, `Custom CSS`
-- **Deployment**: `Vercel` / `Streamlit Cloud`
+| **App Framework** | Streamlit |
+| **Deployment** | Streamlit Cloud |
 
 ---
 
@@ -138,7 +139,7 @@ Built by **Soumen** — Passionate Data Analyst & ML Engineer looking for exciti
   <a href="https://github.com/Soumen1602">
     <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
   </a>
-  <a href="https://linkedin.com/in/soumen">
+  <a href="https://www.linkedin.com/in/soumend12/">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
 </div>
