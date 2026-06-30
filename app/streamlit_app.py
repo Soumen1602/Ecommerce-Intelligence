@@ -223,18 +223,20 @@ def render_risk_badge(probability: float) -> str:
         return '<span class="risk-badge risk-high">● High Risk</span>'
 
 
-def render_model_comparison_table(results: dict) -> str:
+def render_model_comparison_table(results: dict, is_dark: bool = False) -> str:
     """Render a styled HTML table for model comparison results."""
+    text_col = "#F8FAFC" if is_dark else "#2B2620"
+    accent_col = "#38BDF8" if is_dark else "#B5562F"
     rows = ""
     for name, metrics in results.items():
         rows += (
             f"<tr>"
-            f"<td style='color: #2B2620; font-weight: 500;'>{name}</td>"
+            f"<td style='color: {text_col}; font-weight: 500;'>{name}</td>"
             f"<td>{metrics.get('accuracy', 0):.4f}</td>"
             f"<td>{metrics.get('precision', 0):.4f}</td>"
             f"<td>{metrics.get('recall', 0):.4f}</td>"
             f"<td>{metrics.get('f1', 0):.4f}</td>"
-            f"<td style='color: #B5562F; font-weight: 600;'>"
+            f"<td style='color: {accent_col}; font-weight: 600;'>"
             f"{metrics.get('roc_auc', 0):.4f}</td>"
             f"</tr>"
         )
@@ -247,6 +249,7 @@ def render_model_comparison_table(results: dict) -> str:
         f"<tbody>{rows}</tbody>"
         "</table>"
     )
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -541,12 +544,14 @@ def page_sales_dashboard(is_dark):
 def page_churn_prediction(is_dark):
     """Render the Churn Prediction page with upload, gauge, and SHAP."""
 
+    text_col = "#F8FAFC" if is_dark else "#2B2620"
+    sub_col  = "#94A3B8" if is_dark else "#6B6358"
     st.markdown(
         '<div style="animation: fadeIn 0.6s ease-out;">'
-        '<h1 style="color: #2B2620; font-size: 1.8rem; font-weight: 700; '
-        'font-family: Inter, sans-serif; margin-bottom: 0;">🔮 Churn Prediction</h1>'
-        '<p style="color: #6B6358; font-size: 0.85rem; font-family: Inter, sans-serif; '
-        'margin-top: 4px;">Predict customer churn risk with XGBoost + SHAP explainability</p>'
+        f'<h1 style="color: {text_col}; font-size: 1.8rem; font-weight: 700; '
+        f'font-family: \'Source Serif 4\', serif; margin-bottom: 0;">🔮 Churn Prediction</h1>'
+        f'<p style="color: {sub_col}; font-size: 0.85rem; font-family: Inter, sans-serif; '
+        f'margin-top: 4px;">Predict customer churn risk with XGBoost + SHAP explainability</p>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -712,13 +717,16 @@ def page_churn_prediction(is_dark):
                 "Abs Impact": np.abs(sv_arr),
             }).sort_values("Abs Impact", ascending=False).head(5)
 
+            risk_text = "#F8FAFC" if is_dark else "#2B2620"
             rows_html = ""
             for _, row in feat_importance.iterrows():
-                color = "#EF4444" if row["SHAP Value"] > 0 else "#0070f3"
+                up_col   = "#38BDF8" if is_dark else "#B5562F"
+                down_col = "#10B981" if is_dark else "#4A6651"
+                color    = up_col if row["SHAP Value"] > 0 else down_col
                 direction = "▲ Increases" if row["SHAP Value"] > 0 else "▼ Decreases"
                 rows_html += (
                     f"<tr>"
-                    f"<td style='color: #2B2620; font-weight: 500;'>{row['Feature']}</td>"
+                    f"<td style='color: {risk_text}; font-weight: 500;'>{row['Feature']}</td>"
                     f"<td style='color: {color};'>{row['SHAP Value']:.4f}</td>"
                     f"<td style='color: {color}; font-size: 0.8rem;'>{direction} churn risk</td>"
                     f"</tr>"
@@ -741,12 +749,14 @@ def page_churn_prediction(is_dark):
 def page_model_performance(is_dark):
     """Render the Model Performance page with comparison, ROC, confusion matrix."""
 
+    text_col = "#F8FAFC" if is_dark else "#2B2620"
+    sub_col  = "#94A3B8" if is_dark else "#6B6358"
     st.markdown(
         '<div style="animation: fadeIn 0.6s ease-out;">'
-        '<h1 style="color: #2B2620; font-size: 1.8rem; font-weight: 700; '
-        'font-family: Inter, sans-serif; margin-bottom: 0;">🧪 Model Performance</h1>'
-        '<p style="color: #6B6358; font-size: 0.85rem; font-family: Inter, sans-serif; '
-        'margin-top: 4px;">Compare Logistic Regression, Random Forest, and XGBoost</p>'
+        f'<h1 style="color: {text_col}; font-size: 1.8rem; font-weight: 700; '
+        f'font-family: \'Source Serif 4\', serif; margin-bottom: 0;">🧪 Model Performance</h1>'
+        f'<p style="color: {sub_col}; font-size: 0.85rem; font-family: Inter, sans-serif; '
+        f'margin-top: 4px;">Compare Logistic Regression, Random Forest, XGBoost, LightGBM & CatBoost</p>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -763,7 +773,7 @@ def page_model_performance(is_dark):
 
     st.markdown(
         '<div class="chart-container">'
-        + render_model_comparison_table(results)
+        + render_model_comparison_table(results, is_dark=is_dark)
         + '</div>',
         unsafe_allow_html=True,
     )
@@ -808,14 +818,19 @@ def page_model_performance(is_dark):
     render_section_header("SHAP SUMMARY PLOT")
 
     try:
+        shap_bg   = "#0F172A" if is_dark else "#F6F2EA"
+        shap_text = "#F8FAFC" if is_dark else "#2B2620"
+        shap_muted = "#94A3B8" if is_dark else "#6B6358"
+        shap_edge  = "#334155" if is_dark else "#D8D0C2"
+
         plt.rcParams.update({
-            "figure.facecolor": "#000000",
-            "axes.facecolor": "#000000",
-            "text.color": "#ededed",
-            "axes.labelcolor": "#ededed",
-            "xtick.color": "#a1a1aa",
-            "ytick.color": "#a1a1aa",
-            "axes.edgecolor": "#222222",
+            "figure.facecolor": shap_bg,
+            "axes.facecolor":   shap_bg,
+            "text.color":       shap_text,
+            "axes.labelcolor":  shap_text,
+            "xtick.color":      shap_muted,
+            "ytick.color":      shap_muted,
+            "axes.edgecolor":   shap_edge,
         })
 
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
