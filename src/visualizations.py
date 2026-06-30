@@ -2,7 +2,7 @@
 EcomIQ Visualizations Module
 =============================
 Plotly-based charting functions for the EcomIQ dashboard.  Every figure is
-rendered with a consistent dark theme (``#000000`` background, electric-teal
+rendered with a consistent light theme (``#000000`` background, electric-teal
 accents) before being returned.
 """
 
@@ -22,48 +22,71 @@ logger = logging.getLogger(__name__)
 # Theme constants
 # ---------------------------------------------------------------------------
 PLOTLY_LAYOUT: dict = dict(
-    paper_bgcolor="#000000",
-    plot_bgcolor="#000000",
-    font=dict(family="Inter", color="#a1a1aa", size=12),
-    title=dict(font=dict(size=14, color="#ededed", family="Inter")),
-    legend=dict(bgcolor="#0a0a0a", font=dict(color="#a1a1aa")),
-    xaxis=dict(gridcolor="#111111", zerolinecolor="#111111"),
-    yaxis=dict(gridcolor="#111111", zerolinecolor="#111111"),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    font=dict(family="Source Serif 4", color="#6B6358", size=12),
+    title=dict(font=dict(size=14, color="#2B2620", family="Source Serif 4")),
+    legend=dict(bgcolor="#FFFFFF", font=dict(color="#6B6358")),
+    xaxis=dict(gridcolor="#D8D0C2", zerolinecolor="#D8D0C2"),
+    yaxis=dict(gridcolor="#D8D0C2", zerolinecolor="#D8D0C2"),
     hoverlabel=dict(
-        bgcolor="#111111", bordercolor="#0070f3", font=dict(color="#ededed")
+        bgcolor="#FFFFFF", bordercolor="#B5562F", font=dict(color="#2B2620")
     ),
     margin=dict(l=40, r=40, t=50, b=40),
 )
 
 # Palette
-TEAL = "#0070f3"
-VIOLET = "#7928ca"
-AMBER = "#F59E0B"
-RED = "#EF4444"
+TEAL = "#B5562F"  # Terracotta
+VIOLET = "#4A6651"  # Forest
+AMBER = "#C19A3F"  # Gold
+RED = "#B5562F"  # Terracotta
 
 
 # ---------------------------------------------------------------------------
 # Theme helper
 # ---------------------------------------------------------------------------
 
-def apply_dark_theme(fig: go.Figure) -> go.Figure:
-    """Apply the EcomIQ dark theme to a Plotly figure.
+def apply_theme(fig: go.Figure, is_dark: bool = False) -> go.Figure:
+    """Apply dynamic theme to a Plotly figure."""
+    
+    # Text position for pie charts to prevent overlapping
+    for trace in fig.data:
+        if isinstance(trace, go.Pie):
+            trace.textposition = 'outside'
+            trace.textinfo = 'label+percent'
 
-    Parameters
-    ----------
-    fig : go.Figure
-        Any Plotly figure.
+    if is_dark:
+        bg = "#0F172A"
+        surface = "#1E293B"
+        text = "#F8FAFC"
+        text_muted = "#94A3B8"
+        rule = "#334155"
+        accent = "#38BDF8"
+    else:
+        bg = "#F6F2EA"
+        surface = "#FFFFFF"
+        text = "#2B2620"
+        text_muted = "#6B6358"
+        rule = "#D8D0C2"
+        accent = "#B5562F"
 
-    Returns
-    -------
-    go.Figure
-        The same figure with the dark theme layout applied.
-    """
+    layout = dict(
+        paper_bgcolor=surface, # Or 'rgba(0,0,0,0)' if we want transparent
+        plot_bgcolor=surface,
+        font=dict(family="Inter", color=text_muted, size=12),
+        title=dict(font=dict(size=14, color=text, family="Source Serif 4")),
+        legend=dict(bgcolor=surface, font=dict(color=text_muted)),
+        xaxis=dict(gridcolor=rule, zerolinecolor=rule, tickfont=dict(color=text_muted)),
+        yaxis=dict(gridcolor=rule, zerolinecolor=rule, tickfont=dict(color=text_muted)),
+        hoverlabel=dict(bgcolor=surface, bordercolor=accent, font=dict(color=text)),
+        margin=dict(l=40, r=40, t=50, b=40),
+    )
+    
     try:
-        fig.update_layout(**PLOTLY_LAYOUT)
+        fig.update_layout(**layout)
         return fig
     except Exception as exc:
-        logger.error("Error applying dark theme: %s", exc)
+        logger.error("Error applying theme: %s", exc)
         raise
 
 
@@ -71,7 +94,7 @@ def apply_dark_theme(fig: go.Figure) -> go.Figure:
 # EDA charts
 # ---------------------------------------------------------------------------
 
-def create_monthly_revenue_trend(df: pd.DataFrame) -> go.Figure:
+def create_monthly_revenue_trend(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Line + area chart of monthly revenue over time.
 
     Parameters
@@ -116,7 +139,7 @@ def create_monthly_revenue_trend(df: pd.DataFrame) -> go.Figure:
             xaxis_title="Month",
             yaxis_title="Revenue (BRL)",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating monthly revenue trend: %s", exc)
@@ -160,14 +183,14 @@ def create_top_categories_chart(
             xaxis_title="Number of Orders",
             yaxis_title="Category",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating top categories chart: %s", exc)
         raise
 
 
-def create_order_status_distribution(df: pd.DataFrame) -> go.Figure:
+def create_order_status_distribution(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Donut chart of order status distribution.
 
     Parameters
@@ -189,18 +212,18 @@ def create_order_status_distribution(df: pd.DataFrame) -> go.Figure:
                 hole=0.45,
                 marker=dict(colors=[TEAL, VIOLET, AMBER, RED, "#64748B"]),
                 textinfo="percent+label",
-                textfont=dict(color="#ededed"),
+                textfont=dict(color="#2B2620"),
             )
         )
         fig.update_layout(title="Order Status Distribution")
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating order status distribution: %s", exc)
         raise
 
 
-def create_state_distribution(df: pd.DataFrame) -> go.Figure:
+def create_state_distribution(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Bar chart of the top 15 customer states.
 
     Parameters
@@ -233,14 +256,14 @@ def create_state_distribution(df: pd.DataFrame) -> go.Figure:
             xaxis_title="Number of Orders",
             yaxis_title="State",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating state distribution chart: %s", exc)
         raise
 
 
-def create_review_distribution(df: pd.DataFrame) -> go.Figure:
+def create_review_distribution(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Bar chart of review scores (1–5) with a red-to-teal gradient.
 
     Parameters
@@ -271,7 +294,7 @@ def create_review_distribution(df: pd.DataFrame) -> go.Figure:
                 marker_color=colors,
                 text=score_counts.values,
                 textposition="auto",
-                textfont=dict(color="#ededed"),
+                textfont=dict(color="#2B2620"),
             )
         )
         fig.update_layout(
@@ -279,14 +302,14 @@ def create_review_distribution(df: pd.DataFrame) -> go.Figure:
             xaxis_title="Review Score",
             yaxis_title="Count",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating review distribution chart: %s", exc)
         raise
 
 
-def create_payment_breakdown(df: pd.DataFrame) -> go.Figure:
+def create_payment_breakdown(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Donut chart of payment type distribution.
 
     Parameters
@@ -308,18 +331,18 @@ def create_payment_breakdown(df: pd.DataFrame) -> go.Figure:
                 hole=0.45,
                 marker=dict(colors=[TEAL, VIOLET, AMBER, RED, "#64748B"]),
                 textinfo="percent+label",
-                textfont=dict(color="#ededed"),
+                textfont=dict(color="#2B2620"),
             )
         )
         fig.update_layout(title="Payment Type Breakdown")
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating payment breakdown chart: %s", exc)
         raise
 
 
-def create_delivery_performance(df: pd.DataFrame) -> go.Figure:
+def create_delivery_performance(df: pd.DataFrame, is_dark: bool = False) -> go.Figure:
     """Grouped bar chart comparing actual vs. estimated delivery days.
 
     Parameters
@@ -380,7 +403,7 @@ def create_delivery_performance(df: pd.DataFrame) -> go.Figure:
             yaxis_title="Days",
             barmode="group",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating delivery performance chart: %s", exc)
@@ -391,7 +414,7 @@ def create_delivery_performance(df: pd.DataFrame) -> go.Figure:
 # Model / prediction charts
 # ---------------------------------------------------------------------------
 
-def create_churn_gauge(probability: float) -> go.Figure:
+def create_churn_gauge(probability: float, is_dark: bool = False) -> go.Figure:
     """Gauge chart displaying a single customer's churn probability.
 
     Parameters
@@ -411,33 +434,33 @@ def create_churn_gauge(probability: float) -> go.Figure:
             go.Indicator(
                 mode="gauge+number",
                 value=pct,
-                number=dict(suffix="%", font=dict(color="#ededed", size=36)),
+                number=dict(suffix="%", font=dict(color="#2B2620", size=36)),
                 title=dict(
                     text="Churn Probability",
-                    font=dict(color="#ededed", size=14),
+                    font=dict(color="#2B2620", size=14),
                 ),
                 gauge=dict(
                     axis=dict(
                         range=[0, 100],
-                        tickcolor="#a1a1aa",
-                        tickfont=dict(color="#a1a1aa"),
+                        tickcolor="#6B6358",
+                        tickfont=dict(color="#6B6358"),
                     ),
                     bar=dict(color="#111111"),
-                    bgcolor="#111111",
+                    bgcolor="#FFFFFF",
                     steps=[
                         dict(range=[0, 40], color=TEAL),
                         dict(range=[40, 70], color=AMBER),
                         dict(range=[70, 100], color=RED),
                     ],
                     threshold=dict(
-                        line=dict(color="#ededed", width=3),
+                        line=dict(color="#2B2620", width=3),
                         thickness=0.8,
                         value=pct,
                     ),
                 ),
             )
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating churn gauge: %s", exc)
@@ -507,7 +530,7 @@ def create_roc_curves(
             xaxis_title="False Positive Rate",
             yaxis_title="True Positive Rate",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating ROC curves: %s", exc)
@@ -550,7 +573,7 @@ def create_confusion_matrix_chart(
                 colorscale=colorscale,
                 text=cm,
                 texttemplate="%{text}",
-                textfont=dict(color="#ededed", size=16),
+                textfont=dict(color="#2B2620", size=16),
                 showscale=False,
             )
         )
@@ -559,7 +582,7 @@ def create_confusion_matrix_chart(
             xaxis_title="Predicted",
             yaxis_title="Actual",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating confusion matrix chart: %s", exc)
@@ -611,7 +634,7 @@ def create_feature_importance(
             xaxis_title="Importance",
             yaxis_title="Feature",
         )
-        return apply_dark_theme(fig)
+        return apply_theme(fig, is_dark)
 
     except Exception as exc:
         logger.error("Error creating feature importance chart: %s", exc)

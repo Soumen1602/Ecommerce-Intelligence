@@ -63,30 +63,23 @@ st.set_page_config(
 
 CUSTOM_CSS = """
 <style>
-/* ── Google Font ────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-/* ── Fade-in Animation ─────────────────────────────────────────────── */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+/* ── Google Fonts ──────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
 
 /* ── Global Reset ──────────────────────────────────────────────────── */
 html, body, [class*="css"] {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: #a1a1aa;
+    font-family: 'Inter', sans-serif !important;
+    color: #6B6358;
 }
 
 /* ── Main background ───────────────────────────────────────────────── */
 .stApp, .main, .block-container {
-    background-color: #000000 !important;
+    background: #F6F2EA !important;
 }
 
 .block-container {
     padding: 2rem 3rem 2rem 3rem !important;
     max-width: 1400px !important;
-    animation: fadeIn 0.5s ease-out;
 }
 
 /* ── Remove Streamlit defaults ─────────────────────────────────────── */
@@ -99,11 +92,10 @@ div[data-testid="stToolbar"] {display: none;}
 div[data-testid="stDecoration"] {display: none;}
 div[data-testid="stStatusWidget"] {display: none;}
 
-/* ── Sidebar: Frosted Glass ────────────────────────────────────────── */
+/* ── Sidebar ───────────────────────────────────────────────────────── */
 section[data-testid="stSidebar"] {
-    background-color: rgba(15, 23, 42, 0.6) !important;
-    backdrop-filter: blur(12px) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background-color: #F6F2EA !important;
+    border-right: 1px solid #D8D0C2 !important;
 }
 
 /* ── Hide Sidebar Radio Circles ────────────────────────────────────── */
@@ -111,41 +103,37 @@ div[role="radiogroup"] > div[role="radio"] > label > div:first-child {
     display: none !important;
 }
 
-/* Modern Pill Navigation for Sidebar */
+/* Sidebar Navigation */
 section[data-testid="stSidebar"] [role="radiogroup"] label {
     padding: 12px 16px !important;
     margin-bottom: 8px !important;
-    border-radius: 12px !important;
-    background-color: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    transition: all 0.3s ease !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
     cursor: pointer !important;
-    color: #94a3b8 !important;
+    color: #6B6358 !important;
     font-family: 'Inter', sans-serif !important;
     font-weight: 500 !important;
     display: flex !important;
     align-items: center !important;
 }
 section[data-testid="stSidebar"] [role="radiogroup"] label:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    transform: translateX(4px) !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    color: #f8fafc !important;
+    background-color: #E3CCB9 !important;
+    color: #2B2620 !important;
 }
 section[data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"],
 section[data-testid="stSidebar"] [role="radiogroup"] label[aria-checked="true"] {
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.15) 0%, rgba(125, 211, 252, 0.05) 100%) !important;
-    border-left: 3px solid #38bdf8 !important;
-    color: #f8fafc !important;
+    background-color: #E3CCB9 !important;
+    border-left: 3px solid #B5562F !important;
+    color: #B5562F !important;
     font-weight: 600 !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* ── Typography ────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'Source Serif 4', serif !important;
     font-weight: 600 !important;
-    color: #ededed !important;
+    color: #2B2620 !important;
 }
 
 h1 { font-size: 1.8rem !important; }
@@ -154,6 +142,7 @@ h3 { font-size: 1.1rem !important; }
 
 p, li {
     font-family: 'Inter', sans-serif;
+    color: #6B6358;
 }
 
 /* ── Hide Sidebar Collapse Button & Icon Overrides ── */
@@ -172,26 +161,13 @@ p, li {
     display: none !important;
 }
 
-/* ── Glassmorphism KPI Cards ───────────────────────────────────────── */
+/* ── Flat KPI Cards ────────────────────────────────────────────────── */
 .kpi-card {
-    background: rgba(30, 41, 59, 0.5) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-left: 3px solid #38bdf8 !important;
-    border-radius: 16px;
+    background: #FFFFFF !important;
+    border: 1px solid #D8D0C2 !important;
+    border-left: 3px solid #B5562F !important;
+    border-radius: 0 !important;
     padding: 24px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: fadeInUp 0.6s ease-out;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-}
-
-.kpi-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(56, 189, 248, 0.15);
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    border-left-color: #7dd3fc !important;
 }
 
 .kpi-label {
@@ -199,20 +175,17 @@ p, li {
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #94a3b8;
+    color: #6B6358;
     margin-bottom: 8px;
     font-family: 'Inter', sans-serif;
 }
 
-/* Fixed Text Overflow with Clamp */
 .kpi-value {
     font-size: clamp(1.5rem, 4vw, 2.2rem);
     font-weight: 700;
-    background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #B5562F;
     line-height: 1.2;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Source Serif 4', serif;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -220,14 +193,9 @@ p, li {
 
 .kpi-subtitle {
     font-size: 0.8rem;
-    color: #64748b;
+    color: #6B6358;
     margin-top: 6px;
     font-family: 'Inter', sans-serif;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Section Headers ───────────────────────────────────────────────── */
@@ -236,14 +204,12 @@ p, li {
     align-items: center;
     gap: 12px;
     margin: 2rem 0 1rem 0;
-    animation: fadeIn 0.5s ease-out;
 }
 
 .section-header .accent-line {
     width: 3px;
     height: 18px;
-    background: #0070f3;
-    border-radius: 2px;
+    background: #B5562F;
 }
 
 .section-header .section-title {
@@ -251,32 +217,24 @@ p, li {
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #888888;
+    color: #6B6358;
     font-family: 'Inter', sans-serif;
 }
 
-/* ── Glassmorphism Chart containers ────────────────────────────────── */
+/* ── Flat Chart containers ─────────────────────────────────────────── */
 .chart-container {
-    background: rgba(30, 41, 59, 0.3) !important;
-    backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 16px;
+    background: #FFFFFF !important;
+    border: 1px solid #D8D0C2 !important;
+    border-radius: 0 !important;
     padding: 20px;
     margin: 8px 0;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.7s ease-out;
-}
-
-.chart-container:hover {
-    border-color: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Risk Badges ───────────────────────────────────────────────────── */
 .risk-badge {
     display: inline-block;
     padding: 4px 14px;
-    border-radius: 20px;
+    border-radius: 0;
     font-size: 0.75rem;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
@@ -284,21 +242,21 @@ p, li {
 }
 
 .risk-low {
-    background: rgba(0, 112, 243, 0.15);
-    color: #0070f3;
-    border: 1px solid rgba(0, 112, 243, 0.3);
+    background: #FFFFFF;
+    color: #4A6651;
+    border: 1px solid #D8D0C2;
 }
 
 .risk-medium {
-    background: rgba(245, 158, 11, 0.15);
-    color: #F59E0B;
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: #FFFFFF;
+    color: #C19A3F;
+    border: 1px solid #D8D0C2;
 }
 
 .risk-high {
-    background: rgba(239, 68, 68, 0.15);
-    color: #EF4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: #FFFFFF;
+    color: #B5562F;
+    border: 1px solid #D8D0C2;
 }
 
 /* ── Styled Tables ─────────────────────────────────────────────────── */
@@ -311,12 +269,12 @@ p, li {
 }
 
 .styled-table thead th {
-    background: #0a0a0a;
-    color: #ededed;
+    background: #F6F2EA;
+    color: #2B2620;
     font-weight: 600;
     padding: 12px 16px;
     text-align: left;
-    border-bottom: 2px solid #0070f3;
+    border-bottom: 2px solid #D8D0C2;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -324,64 +282,63 @@ p, li {
 
 .styled-table tbody td {
     padding: 10px 16px;
-    color: #a1a1aa;
-    border-bottom: 1px solid #111111;
+    color: #6B6358;
+    border-bottom: 1px solid #D8D0C2;
 }
 
 .styled-table tbody tr:nth-child(odd) {
-    background: #111111;
+    background: #FFFFFF;
 }
 
 .styled-table tbody tr:nth-child(even) {
-    background: #0a0a0a;
+    background: #F6F2EA;
 }
 
 .styled-table tbody tr:hover {
-    background: #222222;
+    background: #E3CCB9;
 }
 
 /* ── Buttons ───────────────────────────────────────────────────────── */
 .stButton > button {
-    background: #0070f3 !important;
-    color: #000000 !important;
-    border: none !important;
-    border-radius: 8px !important;
+    background: #B5562F !important;
+    color: #FFFFFF !important;
+    border: 1px solid #D8D0C2 !important;
+    border-radius: 0 !important;
     font-weight: 600 !important;
     font-family: 'Inter', sans-serif !important;
     padding: 8px 20px !important;
-    transition: all 0.2s ease !important;
 }
 
 .stButton > button:hover {
-    background: #00B89A !important;
-    box-shadow: 0 4px 12px rgba(0, 112, 243, 0.25) !important;
+    background: #4A6651 !important;
+    color: #FFFFFF !important;
 }
 
 /* ── File uploader ─────────────────────────────────────────────────── */
 [data-testid="stFileUploader"] {
-    background: #111111 !important;
-    border: 1px dashed #222222 !important;
-    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #D8D0C2 !important;
+    border-radius: 0 !important;
     padding: 16px !important;
 }
 
 /* ── Selectbox / Input ─────────────────────────────────────────────── */
 .stSelectbox > div > div,
 .stTextInput > div > div > input {
-    background-color: #111111 !important;
-    color: #ededed !important;
-    border: 1px solid #222222 !important;
-    border-radius: 8px !important;
+    background-color: #FFFFFF !important;
+    color: #2B2620 !important;
+    border: 1px solid #D8D0C2 !important;
+    border-radius: 0 !important;
 }
 
 /* ── Spinner ───────────────────────────────────────────────────────── */
 .stSpinner > div {
-    border-top-color: #0070f3 !important;
+    border-top-color: #B5562F !important;
 }
 
 /* ── Divider ───────────────────────────────────────────────────────── */
 hr {
-    border-color: #111111 !important;
+    border-color: #D8D0C2 !important;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────── */
@@ -390,34 +347,34 @@ hr {
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #000000;
+    background: #F6F2EA;
 }
 ::-webkit-scrollbar-thumb {
-    background: #222222;
-    border-radius: 3px;
+    background: #D8D0C2;
+    border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #888888;
+    background: #6B6358;
 }
 
 /* ── Author Card ───────────────────────────────────────────────────── */
 .author-card {
-    background: #111111;
-    border: 1px solid #222222;
-    border-radius: 10px;
+    background: #FFFFFF;
+    border: 1px solid #D8D0C2;
+    border-radius: 0;
     padding: 14px 16px;
     margin-top: 1.5rem;
 }
 
 .author-name {
-    color: #ededed;
+    color: #2B2620;
     font-weight: 600;
     font-size: 0.85rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Source Serif 4', serif;
 }
 
 .author-role {
-    color: #888888;
+    color: #6B6358;
     font-size: 0.7rem;
     font-family: 'Inter', sans-serif;
     margin-top: 2px;
@@ -430,50 +387,35 @@ hr {
 }
 
 .author-links a {
-    color: #0070f3 !important;
+    color: #B5562F !important;
     font-size: 0.7rem;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    transition: color 0.2s ease;
 }
 
 .author-links a:hover {
-    color: #00B89A !important;
+    color: #4A6651 !important;
 }
 
 /* ── Expander ──────────────────────────────────────────────────────── */
 .streamlit-expanderHeader {
-    background: #111111 !important;
-    color: #ededed !important;
-    border-radius: 8px !important;
+    background: #FFFFFF !important;
+    color: #2B2620 !important;
+    border: 1px solid #D8D0C2 !important;
+    border-radius: 0 !important;
 }
 
-/* ── Tabs ──────────────────────────────────────────────────────────── */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 4px;
-    background: transparent;
-}
-
-.stTabs [data-baseweb="tab"] {
-    background: #111111 !important;
-    color: #a1a1aa !important;
-    border-radius: 8px !important;
-    padding: 8px 16px !important;
-    border: 1px solid #222222 !important;
-}
-
-.stTabs [aria-selected="true"] {
-    background: #222222 !important;
-    color: #0070f3 !important;
-    border-color: #0070f3 !important;
+/* ── Checkbox ──────────────────────────────────────────────────────── */
+.stCheckbox > div > label > div > div > div {
+    background-color: #B5562F !important;
 }
 </style>
-"""
+\n"""
 
 # ═══════════════════════════════════════════════════════════════════════════
 # INJECT CSS
 # ═══════════════════════════════════════════════════════════════════════════
-st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -519,12 +461,12 @@ def render_model_comparison_table(results: dict) -> str:
     for name, metrics in results.items():
         rows += (
             f"<tr>"
-            f"<td style='color: #ededed; font-weight: 500;'>{name}</td>"
+            f"<td style='color: #2B2620; font-weight: 500;'>{name}</td>"
             f"<td>{metrics.get('accuracy', 0):.4f}</td>"
             f"<td>{metrics.get('precision', 0):.4f}</td>"
             f"<td>{metrics.get('recall', 0):.4f}</td>"
             f"<td>{metrics.get('f1', 0):.4f}</td>"
-            f"<td style='color: #0070f3; font-weight: 600;'>"
+            f"<td style='color: #B5562F; font-weight: 600;'>"
             f"{metrics.get('roc_auc', 0):.4f}</td>"
             f"</tr>"
         )
@@ -632,17 +574,17 @@ with st.sidebar:
     # Logo
     st.markdown(
         '<div style="padding: 0.5rem 0 0.2rem 0;">'
-        '<span style="color: #0070f3; font-size: 1.4rem; font-weight: 700; '
+        '<span style="color: #B5562F; font-size: 1.4rem; font-weight: 700; '
         'font-family: Inter, sans-serif;">◈ EcomIQ</span>'
         '</div>'
-        '<div style="color: #888888; font-size: 0.75rem; font-family: Inter, sans-serif; '
+        '<div style="color: #6B6358; font-size: 0.75rem; font-family: Inter, sans-serif; '
         'margin-bottom: 1.5rem; letter-spacing: 0.03em;">'
         'Sales Intelligence Platform</div>',
         unsafe_allow_html=True,
     )
 
     st.markdown(
-        '<div style="color: #888888; font-size: 0.65rem; font-weight: 600; '
+        '<div style="color: #6B6358; font-size: 0.65rem; font-weight: 600; '
         'letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; '
         'font-family: Inter, sans-serif;">NAVIGATION</div>',
         unsafe_allow_html=True,
@@ -680,9 +622,9 @@ def page_sales_dashboard():
     # Hero banner
     st.markdown(
         '<div style="animation: fadeIn 0.6s ease-out;">'
-        '<h1 style="color: #ededed; font-size: 1.8rem; font-weight: 700; '
+        '<h1 style="color: #2B2620; font-size: 1.8rem; font-weight: 700; '
         'font-family: Inter, sans-serif; margin-bottom: 0;">◈ EcomIQ Sales Intelligence</h1>'
-        '<p style="color: #888888; font-size: 0.85rem; font-family: Inter, sans-serif; '
+        '<p style="color: #6B6358; font-size: 0.85rem; font-family: Inter, sans-serif; '
         'margin-top: 4px;">Real-time insights from 100K+ Olist transactions</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -743,7 +685,7 @@ def page_sales_dashboard():
     with col_left:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_trend = create_monthly_revenue_trend(df)
+            fig_trend = create_monthly_revenue_trend(df, is_dark=is_dark)
             st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render revenue trend: {e}")
@@ -752,7 +694,7 @@ def page_sales_dashboard():
     with col_right:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_cats = create_top_categories_chart(df)
+            fig_cats = create_top_categories_chart(df, is_dark=is_dark)
             st.plotly_chart(fig_cats, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render categories: {e}")
@@ -766,7 +708,7 @@ def page_sales_dashboard():
     with col_a:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_state = create_state_distribution(df)
+            fig_state = create_state_distribution(df, is_dark=is_dark)
             st.plotly_chart(fig_state, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render state distribution: {e}")
@@ -775,7 +717,7 @@ def page_sales_dashboard():
     with col_b:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_status = create_order_status_distribution(df)
+            fig_status = create_order_status_distribution(df, is_dark=is_dark)
             st.plotly_chart(fig_status, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render order status: {e}")
@@ -789,7 +731,7 @@ def page_sales_dashboard():
     with col_c:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_review = create_review_distribution(df)
+            fig_review = create_review_distribution(df, is_dark=is_dark)
             st.plotly_chart(fig_review, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render reviews: {e}")
@@ -798,7 +740,7 @@ def page_sales_dashboard():
     with col_d:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_payment = create_payment_breakdown(df)
+            fig_payment = create_payment_breakdown(df, is_dark=is_dark)
             st.plotly_chart(fig_payment, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Could not render payments: {e}")
@@ -809,7 +751,7 @@ def page_sales_dashboard():
 
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
     try:
-        fig_delivery = create_delivery_performance(df)
+        fig_delivery = create_delivery_performance(df, is_dark=is_dark)
         st.plotly_chart(fig_delivery, use_container_width=True, config={"displayModeBar": False})
     except Exception as e:
         st.warning(f"Could not render delivery performance: {e}")
@@ -820,14 +762,14 @@ def page_sales_dashboard():
 # PAGE 2 — CHURN PREDICTION
 # ═══════════════════════════════════════════════════════════════════════════
 
-def page_churn_prediction():
+def page_churn_prediction(is_dark):
     """Render the Churn Prediction page with upload, gauge, and SHAP."""
 
     st.markdown(
         '<div style="animation: fadeIn 0.6s ease-out;">'
-        '<h1 style="color: #ededed; font-size: 1.8rem; font-weight: 700; '
+        '<h1 style="color: #2B2620; font-size: 1.8rem; font-weight: 700; '
         'font-family: Inter, sans-serif; margin-bottom: 0;">🔮 Churn Prediction</h1>'
-        '<p style="color: #888888; font-size: 0.85rem; font-family: Inter, sans-serif; '
+        '<p style="color: #6B6358; font-size: 0.85rem; font-family: Inter, sans-serif; '
         'margin-top: 4px;">Predict customer churn risk with XGBoost + SHAP explainability</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -855,7 +797,7 @@ def page_churn_prediction():
     if input_mode == "Use sample customer":
         # Let user pick a sample from test set
         st.markdown(
-            '<p style="color: #a1a1aa; font-size: 0.85rem;">Select a sample customer from '
+            '<p style="color: #6B6358; font-size: 0.85rem;">Select a sample customer from '
             'the test dataset to see their churn prediction.</p>',
             unsafe_allow_html=True,
         )
@@ -897,7 +839,7 @@ def page_churn_prediction():
 
         with col_gauge:
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-            fig_gauge = create_churn_gauge(proba)
+            fig_gauge = create_churn_gauge(proba, is_dark=is_dark)
             st.plotly_chart(fig_gauge, use_container_width=True, config={"displayModeBar": False})
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -927,8 +869,8 @@ def page_churn_prediction():
                 st.markdown(
                     f'<div style="display: flex; justify-content: space-between; '
                     f'padding: 4px 0; border-bottom: 1px solid #111111;">'
-                    f'<span style="color: #888888; font-size: 0.8rem;">{col_name}</span>'
-                    f'<span style="color: #ededed; font-size: 0.8rem; font-weight: 500;">'
+                    f'<span style="color: #6B6358; font-size: 0.8rem;">{col_name}</span>'
+                    f'<span style="color: #2B2620; font-size: 0.8rem; font-weight: 500;">'
                     f'{val_str}</span></div>',
                     unsafe_allow_html=True,
                 )
@@ -1000,7 +942,7 @@ def page_churn_prediction():
                 direction = "▲ Increases" if row["SHAP Value"] > 0 else "▼ Decreases"
                 rows_html += (
                     f"<tr>"
-                    f"<td style='color: #ededed; font-weight: 500;'>{row['Feature']}</td>"
+                    f"<td style='color: #2B2620; font-weight: 500;'>{row['Feature']}</td>"
                     f"<td style='color: {color};'>{row['SHAP Value']:.4f}</td>"
                     f"<td style='color: {color}; font-size: 0.8rem;'>{direction} churn risk</td>"
                     f"</tr>"
@@ -1025,9 +967,9 @@ def page_model_performance():
 
     st.markdown(
         '<div style="animation: fadeIn 0.6s ease-out;">'
-        '<h1 style="color: #ededed; font-size: 1.8rem; font-weight: 700; '
+        '<h1 style="color: #2B2620; font-size: 1.8rem; font-weight: 700; '
         'font-family: Inter, sans-serif; margin-bottom: 0;">🧪 Model Performance</h1>'
-        '<p style="color: #888888; font-size: 0.85rem; font-family: Inter, sans-serif; '
+        '<p style="color: #6B6358; font-size: 0.85rem; font-family: Inter, sans-serif; '
         'margin-top: 4px;">Compare Logistic Regression, Random Forest, and XGBoost</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -1058,7 +1000,7 @@ def page_model_performance():
     with col_roc:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
-            fig_roc = create_roc_curves(models, X_test, y_test)
+            fig_roc = create_roc_curves(models, X_test, y_test, is_dark=is_dark)
             st.plotly_chart(fig_roc, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"ROC curves unavailable: {e}")
@@ -1069,7 +1011,7 @@ def page_model_performance():
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
         try:
             y_pred = models["XGBoost"].predict(X_test)
-            fig_cm = create_confusion_matrix_chart(y_test, y_pred)
+            fig_cm = create_confusion_matrix_chart(y_test, y_pred, is_dark=is_dark)
             st.plotly_chart(fig_cm, use_container_width=True, config={"displayModeBar": False})
         except Exception as e:
             st.warning(f"Confusion matrix unavailable: {e}")
@@ -1080,7 +1022,7 @@ def page_model_performance():
 
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
     try:
-        fig_fi = create_feature_importance(models["XGBoost"], feature_cols)
+        fig_fi = create_feature_importance(models["XGBoost"], feature_cols, is_dark=is_dark)
         st.plotly_chart(fig_fi, use_container_width=True, config={"displayModeBar": False})
     except Exception as e:
         st.warning(f"Feature importance unavailable: {e}")
@@ -1132,6 +1074,6 @@ def page_model_performance():
 if page == "📊 Sales Dashboard":
     page_sales_dashboard()
 elif page == "🔮 Churn Prediction":
-    page_churn_prediction()
+    page_churn_prediction(is_dark)
 elif page == "🧪 Model Performance":
     page_model_performance()
