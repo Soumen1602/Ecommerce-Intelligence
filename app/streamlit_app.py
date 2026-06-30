@@ -571,6 +571,7 @@ def load_trained_models():
 # ═══════════════════════════════════════════════════════════════════════════
 
 with st.sidebar:
+    is_dark = st.toggle("🌙 Dark Mode", value=False)
     # Logo
     st.markdown(
         '<div style="padding: 0.5rem 0 0.2rem 0;">'
@@ -616,7 +617,7 @@ with st.sidebar:
 # PAGE 1 — SALES DASHBOARD
 # ═══════════════════════════════════════════════════════════════════════════
 
-def page_sales_dashboard():
+def page_sales_dashboard(is_dark):
     """Render the Sales Dashboard page with KPIs and interactive charts."""
 
     # Hero banner
@@ -962,7 +963,7 @@ def page_churn_prediction(is_dark):
 # PAGE 3 — MODEL PERFORMANCE
 # ═══════════════════════════════════════════════════════════════════════════
 
-def page_model_performance():
+def page_model_performance(is_dark):
     """Render the Model Performance page with comparison, ROC, confusion matrix."""
 
     st.markdown(
@@ -1072,8 +1073,8 @@ def page_model_performance():
 # ═══════════════════════════════════════════════════════════════════════════
 
 if page == "📊 Sales Dashboard":
-    page_sales_dashboard()
+    page_sales_dashboard(is_dark)
 elif page == "🔮 Churn Prediction":
     page_churn_prediction(is_dark)
 elif page == "🧪 Model Performance":
-    page_model_performance()
+    page_model_performance(is_dark)
