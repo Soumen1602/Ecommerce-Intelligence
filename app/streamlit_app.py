@@ -61,361 +61,129 @@ st.set_page_config(
 # DESIGN SYSTEM — Full Custom CSS Injection
 # ═══════════════════════════════════════════════════════════════════════════
 
-CUSTOM_CSS = """
+def get_css(is_dark: bool) -> str:
+    """Return full CSS string based on current theme."""
+    if is_dark:
+        bg = "#0F172A"
+        surface = "#1E293B"
+        text = "#F8FAFC"
+        text_muted = "#94A3B8"
+        rule = "#334155"
+        accent = "#38BDF8"
+        success = "#10B981"
+        warning = "#F59E0B"
+        hover = "#334155"
+    else:
+        bg = "#F6F2EA"
+        surface = "#FFFFFF"
+        text = "#2B2620"
+        text_muted = "#6B6358"
+        rule = "#D8D0C2"
+        accent = "#B5562F"
+        success = "#4A6651"
+        warning = "#C19A3F"
+        hover = "#E3CCB9"
+
+    return f"""
 <style>
-/* ── Google Fonts ──────────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
 
-/* ── Global Reset ──────────────────────────────────────────────────── */
-html, body, [class*="css"] {
+html, body, [class*="css"] {{
     font-family: 'Inter', sans-serif !important;
-    color: #6B6358;
-}
+    color: {text_muted};
+}}
 
-/* ── Main background ───────────────────────────────────────────────── */
-.stApp, .main, .block-container {
-    background: #F6F2EA !important;
-}
+.stApp, .main, .block-container {{ background: {bg} !important; }}
+.block-container {{ padding: 2rem 3rem 2rem 3rem !important; max-width: 1400px !important; }}
 
-.block-container {
-    padding: 2rem 3rem 2rem 3rem !important;
-    max-width: 1400px !important;
-}
+#MainMenu, footer, header, .stDeployButton {{ visibility: hidden; }}
+div[data-testid="stToolbar"], div[data-testid="stDecoration"], div[data-testid="stStatusWidget"] {{ display: none !important; }}
+[data-testid="stSidebarCollapseButton"], [data-testid="collapsedControl"] {{ display: none !important; }}
+.material-icons {{ font-family: 'Material Icons' !important; }}
+[data-testid="stMetric"] {{ display: none !important; }}
 
-/* ── Remove Streamlit defaults ─────────────────────────────────────── */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-.stDeployButton {display: none;}
+section[data-testid="stSidebar"] {{
+    background-color: {bg} !important;
+    border-right: 1px solid {rule} !important;
+}}
 
-div[data-testid="stToolbar"] {display: none;}
-div[data-testid="stDecoration"] {display: none;}
-div[data-testid="stStatusWidget"] {display: none;}
+div[role="radiogroup"] > div[role="radio"] > label > div:first-child {{ display: none !important; }}
 
-/* ── Sidebar ───────────────────────────────────────────────────────── */
-section[data-testid="stSidebar"] {
-    background-color: #F6F2EA !important;
-    border-right: 1px solid #D8D0C2 !important;
-}
-
-/* ── Hide Sidebar Radio Circles ────────────────────────────────────── */
-div[role="radiogroup"] > div[role="radio"] > label > div:first-child {
-    display: none !important;
-}
-
-/* Sidebar Navigation */
-section[data-testid="stSidebar"] [role="radiogroup"] label {
-    padding: 12px 16px !important;
-    margin-bottom: 8px !important;
-    border-radius: 0 !important;
-    background-color: transparent !important;
-    border: 1px solid transparent !important;
-    cursor: pointer !important;
-    color: #6B6358 !important;
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 500 !important;
-    display: flex !important;
-    align-items: center !important;
-}
-section[data-testid="stSidebar"] [role="radiogroup"] label:hover {
-    background-color: #E3CCB9 !important;
-    color: #2B2620 !important;
-}
+section[data-testid="stSidebar"] [role="radiogroup"] label {{
+    padding: 12px 16px !important; margin-bottom: 8px !important;
+    border-radius: 0 !important; background-color: transparent !important;
+    border: 1px solid transparent !important; cursor: pointer !important;
+    color: {text_muted} !important; font-family: 'Inter', sans-serif !important;
+    font-weight: 500 !important; display: flex !important; align-items: center !important;
+}}
+section[data-testid="stSidebar"] [role="radiogroup"] label:hover {{
+    background-color: {hover} !important; color: {text} !important;
+}}
 section[data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"],
-section[data-testid="stSidebar"] [role="radiogroup"] label[aria-checked="true"] {
-    background-color: #E3CCB9 !important;
-    border-left: 3px solid #B5562F !important;
-    color: #B5562F !important;
-    font-weight: 600 !important;
-}
+section[data-testid="stSidebar"] [role="radiogroup"] label[aria-checked="true"] {{
+    background-color: {hover} !important; border-left: 3px solid {accent} !important;
+    color: {accent} !important; font-weight: 600 !important;
+}}
 
-/* ── Typography ────────────────────────────────────────────────────── */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {{
     font-family: 'Source Serif 4', serif !important;
-    font-weight: 600 !important;
-    color: #2B2620 !important;
-}
+    font-weight: 600 !important; color: {text} !important;
+}}
+h1 {{ font-size: 1.8rem !important; }}
+h2 {{ font-size: 1.3rem !important; }}
+h3 {{ font-size: 1.1rem !important; }}
+p, li {{ font-family: 'Inter', sans-serif; color: {text_muted}; }}
 
-h1 { font-size: 1.8rem !important; }
-h2 { font-size: 1.3rem !important; }
-h3 { font-size: 1.1rem !important; }
+.kpi-card {{
+    background: {surface} !important; border: 1px solid {rule} !important;
+    border-left: 3px solid {accent} !important; border-radius: 0 !important; padding: 24px;
+}}
+.kpi-label {{ font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: {text_muted}; margin-bottom: 8px; font-family: 'Inter', sans-serif; }}
+.kpi-value {{ font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: {accent}; line-height: 1.2; font-family: 'Source Serif 4', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+.kpi-subtitle {{ font-size: 0.8rem; color: {text_muted}; margin-top: 6px; font-family: 'Inter', sans-serif; }}
 
-p, li {
-    font-family: 'Inter', sans-serif;
-    color: #6B6358;
-}
+.section-header {{ display: flex; align-items: center; gap: 12px; margin: 2rem 0 1rem 0; }}
+.section-header .accent-line {{ width: 3px; height: 18px; background: {accent}; }}
+.section-header .section-title {{ font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: {text_muted}; font-family: 'Inter', sans-serif; }}
 
-/* ── Hide Sidebar Collapse Button & Icon Overrides ── */
-[data-testid="stSidebarCollapseButton"],
-[data-testid="collapsedControl"] {
-    display: none !important;
-}
+.chart-container {{ background: {surface} !important; border: 1px solid {rule} !important; border-radius: 0 !important; padding: 20px; margin: 8px 0; }}
 
-/* Ensure material icons render correctly if used elsewhere */
-.material-icons {
-    font-family: 'Material Icons' !important;
-}
+.risk-badge {{ display: inline-block; padding: 4px 14px; border-radius: 0; font-size: 0.75rem; font-weight: 600; font-family: 'Inter', sans-serif; letter-spacing: 0.05em; }}
+.risk-low {{ background: {surface}; color: {success}; border: 1px solid {rule}; }}
+.risk-medium {{ background: {surface}; color: {warning}; border: 1px solid {rule}; }}
+.risk-high {{ background: {surface}; color: {accent}; border: 1px solid {rule}; }}
 
-/* ── Hide default st.metric styling ────────────────────────────────── */
-[data-testid="stMetric"] {
-    display: none !important;
-}
+.styled-table {{ width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 1rem 0; }}
+.styled-table thead th {{ background: {bg}; color: {text}; font-weight: 600; padding: 12px 16px; text-align: left; border-bottom: 2px solid {rule}; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; }}
+.styled-table tbody td {{ padding: 10px 16px; color: {text_muted}; border-bottom: 1px solid {rule}; }}
+.styled-table tbody tr:nth-child(odd) {{ background: {surface}; }}
+.styled-table tbody tr:nth-child(even) {{ background: {bg}; }}
+.styled-table tbody tr:hover {{ background: {hover}; }}
 
-/* ── Flat KPI Cards ────────────────────────────────────────────────── */
-.kpi-card {
-    background: #FFFFFF !important;
-    border: 1px solid #D8D0C2 !important;
-    border-left: 3px solid #B5562F !important;
-    border-radius: 0 !important;
-    padding: 24px;
-}
+.stButton > button {{ background: {accent} !important; color: {surface} !important; border: none !important; border-radius: 0 !important; font-weight: 600 !important; font-family: 'Inter', sans-serif !important; padding: 8px 20px !important; }}
+.stButton > button:hover {{ background: {success} !important; color: {surface} !important; }}
 
-.kpi-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #6B6358;
-    margin-bottom: 8px;
-    font-family: 'Inter', sans-serif;
-}
+[data-testid="stFileUploader"] {{ background: {surface} !important; border: 1px solid {rule} !important; border-radius: 0 !important; padding: 16px !important; }}
+.stSelectbox > div > div, .stTextInput > div > div > input {{ background-color: {surface} !important; color: {text} !important; border: 1px solid {rule} !important; border-radius: 0 !important; }}
 
-.kpi-value {
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    font-weight: 700;
-    color: #B5562F;
-    line-height: 1.2;
-    font-family: 'Source Serif 4', serif;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.stSpinner > div {{ border-top-color: {accent} !important; }}
+hr {{ border-color: {rule} !important; }}
+::-webkit-scrollbar {{ width: 6px; height: 6px; }}
+::-webkit-scrollbar-track {{ background: {bg}; }}
+::-webkit-scrollbar-thumb {{ background: {rule}; border-radius: 0; }}
+::-webkit-scrollbar-thumb:hover {{ background: {text_muted}; }}
 
-.kpi-subtitle {
-    font-size: 0.8rem;
-    color: #6B6358;
-    margin-top: 6px;
-    font-family: 'Inter', sans-serif;
-}
+.author-card {{ background: {surface}; border: 1px solid {rule}; border-radius: 0; padding: 14px 16px; margin-top: 1.5rem; }}
+.author-name {{ color: {text}; font-weight: 600; font-size: 0.85rem; font-family: 'Source Serif 4', serif; }}
+.author-role {{ color: {text_muted}; font-size: 0.7rem; font-family: 'Inter', sans-serif; margin-top: 2px; }}
+.author-links {{ margin-top: 8px; display: flex; gap: 10px; }}
+.author-links a {{ color: {accent} !important; font-size: 0.7rem; text-decoration: none; font-family: 'Inter', sans-serif; }}
+.author-links a:hover {{ color: {success} !important; }}
 
-/* ── Section Headers ───────────────────────────────────────────────── */
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 2rem 0 1rem 0;
-}
-
-.section-header .accent-line {
-    width: 3px;
-    height: 18px;
-    background: #B5562F;
-}
-
-.section-header .section-title {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #6B6358;
-    font-family: 'Inter', sans-serif;
-}
-
-/* ── Flat Chart containers ─────────────────────────────────────────── */
-.chart-container {
-    background: #FFFFFF !important;
-    border: 1px solid #D8D0C2 !important;
-    border-radius: 0 !important;
-    padding: 20px;
-    margin: 8px 0;
-}
-
-/* ── Risk Badges ───────────────────────────────────────────────────── */
-.risk-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.05em;
-}
-
-.risk-low {
-    background: #FFFFFF;
-    color: #4A6651;
-    border: 1px solid #D8D0C2;
-}
-
-.risk-medium {
-    background: #FFFFFF;
-    color: #C19A3F;
-    border: 1px solid #D8D0C2;
-}
-
-.risk-high {
-    background: #FFFFFF;
-    color: #B5562F;
-    border: 1px solid #D8D0C2;
-}
-
-/* ── Styled Tables ─────────────────────────────────────────────────── */
-.styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    margin: 1rem 0;
-}
-
-.styled-table thead th {
-    background: #F6F2EA;
-    color: #2B2620;
-    font-weight: 600;
-    padding: 12px 16px;
-    text-align: left;
-    border-bottom: 2px solid #D8D0C2;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.styled-table tbody td {
-    padding: 10px 16px;
-    color: #6B6358;
-    border-bottom: 1px solid #D8D0C2;
-}
-
-.styled-table tbody tr:nth-child(odd) {
-    background: #FFFFFF;
-}
-
-.styled-table tbody tr:nth-child(even) {
-    background: #F6F2EA;
-}
-
-.styled-table tbody tr:hover {
-    background: #E3CCB9;
-}
-
-/* ── Buttons ───────────────────────────────────────────────────────── */
-.stButton > button {
-    background: #B5562F !important;
-    color: #FFFFFF !important;
-    border: 1px solid #D8D0C2 !important;
-    border-radius: 0 !important;
-    font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
-    padding: 8px 20px !important;
-}
-
-.stButton > button:hover {
-    background: #4A6651 !important;
-    color: #FFFFFF !important;
-}
-
-/* ── File uploader ─────────────────────────────────────────────────── */
-[data-testid="stFileUploader"] {
-    background: #FFFFFF !important;
-    border: 1px solid #D8D0C2 !important;
-    border-radius: 0 !important;
-    padding: 16px !important;
-}
-
-/* ── Selectbox / Input ─────────────────────────────────────────────── */
-.stSelectbox > div > div,
-.stTextInput > div > div > input {
-    background-color: #FFFFFF !important;
-    color: #2B2620 !important;
-    border: 1px solid #D8D0C2 !important;
-    border-radius: 0 !important;
-}
-
-/* ── Spinner ───────────────────────────────────────────────────────── */
-.stSpinner > div {
-    border-top-color: #B5562F !important;
-}
-
-/* ── Divider ───────────────────────────────────────────────────────── */
-hr {
-    border-color: #D8D0C2 !important;
-}
-
-/* ── Scrollbar ─────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: #F6F2EA;
-}
-::-webkit-scrollbar-thumb {
-    background: #D8D0C2;
-    border-radius: 0;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #6B6358;
-}
-
-/* ── Author Card ───────────────────────────────────────────────────── */
-.author-card {
-    background: #FFFFFF;
-    border: 1px solid #D8D0C2;
-    border-radius: 0;
-    padding: 14px 16px;
-    margin-top: 1.5rem;
-}
-
-.author-name {
-    color: #2B2620;
-    font-weight: 600;
-    font-size: 0.85rem;
-    font-family: 'Source Serif 4', serif;
-}
-
-.author-role {
-    color: #6B6358;
-    font-size: 0.7rem;
-    font-family: 'Inter', sans-serif;
-    margin-top: 2px;
-}
-
-.author-links {
-    margin-top: 8px;
-    display: flex;
-    gap: 10px;
-}
-
-.author-links a {
-    color: #B5562F !important;
-    font-size: 0.7rem;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
-}
-
-.author-links a:hover {
-    color: #4A6651 !important;
-}
-
-/* ── Expander ──────────────────────────────────────────────────────── */
-.streamlit-expanderHeader {
-    background: #FFFFFF !important;
-    color: #2B2620 !important;
-    border: 1px solid #D8D0C2 !important;
-    border-radius: 0 !important;
-}
-
-/* ── Checkbox ──────────────────────────────────────────────────────── */
-.stCheckbox > div > label > div > div > div {
-    background-color: #B5562F !important;
-}
+.streamlit-expanderHeader {{ background: {surface} !important; color: {text} !important; border: 1px solid {rule} !important; border-radius: 0 !important; }}
+.stCheckbox > div > label > div > div > div {{ background-color: {accent} !important; }}
 </style>
-\n"""
-
-# ═══════════════════════════════════════════════════════════════════════════
-# INJECT CSS
-# ═══════════════════════════════════════════════════════════════════════════
-
+"""
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -611,6 +379,13 @@ with st.sidebar:
         '</div>',
         unsafe_allow_html=True,
     )
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# INJECT THEME CSS (must be after sidebar so is_dark is defined)
+# ═══════════════════════════════════════════════════════════════════════════
+
+st.markdown(get_css(is_dark), unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════════

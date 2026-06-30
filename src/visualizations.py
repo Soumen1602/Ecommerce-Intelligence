@@ -147,7 +147,7 @@ def create_monthly_revenue_trend(df: pd.DataFrame, is_dark: bool = False) -> go.
 
 
 def create_top_categories_chart(
-    df: pd.DataFrame, top_n: int = 10
+    df: pd.DataFrame, top_n: int = 10, is_dark: bool = False
 ) -> go.Figure:
     """Horizontal bar chart of the top-selling product categories.
 
@@ -210,12 +210,13 @@ def create_order_status_distribution(df: pd.DataFrame, is_dark: bool = False) ->
                 labels=status_counts.index,
                 values=status_counts.values,
                 hole=0.45,
-                marker=dict(colors=[TEAL, VIOLET, AMBER, RED, "#64748B"]),
-                textinfo="percent+label",
-                textfont=dict(color="#2B2620"),
+                marker=dict(colors=[TEAL, VIOLET, AMBER, RED, "#64748B", "#94A3B8", "#A78BFA", "#FB923C"]),
+                textposition="outside",
+                textinfo="label+percent",
+                automargin=True,
             )
         )
-        fig.update_layout(title="Order Status Distribution")
+        fig.update_layout(title="Order Status Distribution", margin=dict(l=80, r=80, t=60, b=60))
         return apply_theme(fig, is_dark)
 
     except Exception as exc:
@@ -330,11 +331,12 @@ def create_payment_breakdown(df: pd.DataFrame, is_dark: bool = False) -> go.Figu
                 values=payment_counts.values,
                 hole=0.45,
                 marker=dict(colors=[TEAL, VIOLET, AMBER, RED, "#64748B"]),
-                textinfo="percent+label",
-                textfont=dict(color="#2B2620"),
+                textposition="outside",
+                textinfo="label+percent",
+                automargin=True,
             )
         )
-        fig.update_layout(title="Payment Type Breakdown")
+        fig.update_layout(title="Payment Type Breakdown", margin=dict(l=80, r=80, t=60, b=60))
         return apply_theme(fig, is_dark)
 
     except Exception as exc:
@@ -429,31 +431,35 @@ def create_churn_gauge(probability: float, is_dark: bool = False) -> go.Figure:
     """
     try:
         pct = probability * 100
+        text_color = "#F8FAFC" if is_dark else "#2B2620"
+        tick_color = "#94A3B8" if is_dark else "#6B6358"
+        bar_color = "#38BDF8" if is_dark else "#2B2620"
+        bg_color = "#1E293B" if is_dark else "#FFFFFF"
 
         fig = go.Figure(
             go.Indicator(
                 mode="gauge+number",
                 value=pct,
-                number=dict(suffix="%", font=dict(color="#2B2620", size=36)),
+                number=dict(suffix="%", font=dict(color=text_color, size=36)),
                 title=dict(
                     text="Churn Probability",
-                    font=dict(color="#2B2620", size=14),
+                    font=dict(color=text_color, size=14),
                 ),
                 gauge=dict(
                     axis=dict(
                         range=[0, 100],
-                        tickcolor="#6B6358",
-                        tickfont=dict(color="#6B6358"),
+                        tickcolor=tick_color,
+                        tickfont=dict(color=tick_color),
                     ),
-                    bar=dict(color="#111111"),
-                    bgcolor="#FFFFFF",
+                    bar=dict(color=bar_color),
+                    bgcolor=bg_color,
                     steps=[
-                        dict(range=[0, 40], color=TEAL),
-                        dict(range=[40, 70], color=AMBER),
-                        dict(range=[70, 100], color=RED),
+                        dict(range=[0, 40], color="#4A6651"),
+                        dict(range=[40, 70], color="#C19A3F"),
+                        dict(range=[70, 100], color="#B5562F"),
                     ],
                     threshold=dict(
-                        line=dict(color="#2B2620", width=3),
+                        line=dict(color=text_color, width=3),
                         thickness=0.8,
                         value=pct,
                     ),
@@ -471,6 +477,7 @@ def create_roc_curves(
     models_dict: dict[str, Any],
     X_test: Union[pd.DataFrame, np.ndarray],
     y_test: Union[pd.Series, np.ndarray],
+    is_dark: bool = False,
 ) -> go.Figure:
     """Overlay ROC curves for multiple models.
 
@@ -540,6 +547,7 @@ def create_roc_curves(
 def create_confusion_matrix_chart(
     y_true: Union[pd.Series, np.ndarray],
     y_pred: Union[pd.Series, np.ndarray],
+    is_dark: bool = False,
 ) -> go.Figure:
     """Heatmap visualisation of the confusion matrix.
 
@@ -560,9 +568,9 @@ def create_confusion_matrix_chart(
 
         # Custom colorscale from dark background to teal
         colorscale = [
-            [0.0, "#000000"],
-            [0.5, "#00326e"],
-            [1.0, TEAL],
+            [0.0, "#1E293B" if is_dark else "#F6F2EA"],
+            [0.5, "#334155" if is_dark else "#E3CCB9"],
+            [1.0, "#38BDF8" if is_dark else "#B5562F"],
         ]
 
         fig = go.Figure(
@@ -592,6 +600,7 @@ def create_confusion_matrix_chart(
 def create_feature_importance(
     model: Any,
     feature_names: list[str],
+    is_dark: bool = False,
 ) -> go.Figure:
     """Horizontal bar chart of feature importances.
 
